@@ -8,6 +8,7 @@ set(CORE_SOURCES
 set(CORE_HEADERS 
 	"Source/Application/Application.hpp"
 	"Source/Log/Log.hpp"
+	"Source/Utils/Definitions.hpp"
 )
 
 # Define the Core Library
