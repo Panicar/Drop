@@ -2,29 +2,27 @@
 
 namespace DP {
 
-	struct ApplicationConfig
-	{
-
-	};
-
-	class Application
+	class CoreApplication
 	{
 	public:
 
-		Application(const ApplicationConfig& config = {}) {}
-		virtual ~Application() {}
+		CoreApplication();
+		virtual ~CoreApplication();
 
-		Application(const Application& other) = delete;
-		Application(Application&& other) = delete;
-		Application& operator=(const Application& other) = delete;
-		Application& operator=(Application&& other) = delete;
+		CoreApplication(const CoreApplication& other) = delete;
+		CoreApplication(CoreApplication&& other) = delete;
+		CoreApplication& operator=(const CoreApplication& other) = delete;
+		CoreApplication& operator=(CoreApplication&& other) = delete;
 
 		void OnUpdate() {}
+		
+		void Execute();
 
 		void Print();
-
+		
+		static CoreApplication& Instance() { return *s_Instance; }
 
 	private:
-
+		static CoreApplication* s_Instance;
 	};
 }

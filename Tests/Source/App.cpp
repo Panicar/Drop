@@ -9,11 +9,8 @@ int main()
 {
 	std::cout << "Engine is running..." << '\n';
 
-	DP::Application app;
+	DP::CoreApplication app;
 	app.Print();
-
-	spdlog::info("gotveren ble naxuy");
-
 
 #if DP_DEV_MODE
 
