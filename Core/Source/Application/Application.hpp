@@ -20,7 +20,7 @@ namespace DP {
 
 		void Print();
 		
-		static CoreApplication& Instance() { return *s_Instance; }
+		static CoreApplication* Instance() { return s_Instance; }
 
 	private:
 		static CoreApplication* s_Instance;
