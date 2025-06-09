@@ -1,0 +1,116 @@
+{
+  "version": 2,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 20,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "Base",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/Build/${presetName}"
+    },
+    {
+      "name": "Development",
+      "description": "Windows Development Build (Debug x64)",
+      "inherits": [ "Base" ],
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_CXX_COMPILER": "cl",
+        "CMAKE_CXX_FLAGS": "/DDP_DEV_MODE"
+      },
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [ "Windows" ]
+        }
+      }
+    },
+    {
+      "name": "Profile",
+      "description": "Windows Profile Build (RelWithDebInfo x64)",
+      "inherits": [ "Base" ],
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CMAKE_CXX_COMPILER": "cl",
+        "CMAKE_CXX_FLAGS": "/DDP_PROFILE_MODE"
+      },
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [ "Windows" ]
+        }
+      }
+    },
+    {
+      "name": "Master",
+      "description": "Windows Master Build (Release x64)",
+      "inherits": [ "Base" ],
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_CXX_COMPILER": "cl",
+        "CMAKE_CXX_FLAGS": "/DDP_MASTER_MODE"
+      },
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [ "Windows" ]
+        }
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "Development",
+      "configurePreset": "Development",
+      "description": "Builds Development configuration",
+      "cleanFirst": true
+    },
+    {
+      "name": "Profile",
+      "configurePreset": "Profile",
+      "description": "Builds Profile configuration",
+      "cleanFirst": true
+    },
+    {
+      "name": "Master",
+      "configurePreset": "Master",
+      "description": "Builds Master configuration",
+      "cleanFirst": true
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "Development-Test",
+      "configurePreset": "Development",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "Profile-Test",
+      "configurePreset": "Profile",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "Master-Test",
+      "configurePreset": "Master",
+      "output": {
+        "outputOnFailure": true
+      }
+    }
+  ]
+}

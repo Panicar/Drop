@@ -1,0 +1,28 @@
+# Setting source files for the test executable
+set( APP_SOURCES
+	"Source/App.cpp"
+)
+
+# Setting header files
+set ( APP_HEADERS
+	"Source/App.hpp"
+)
+
+# Creating the executables
+add_executable(App
+	${APP_SOURCES}
+	${APP_HEADERS}
+)
+
+# Link the framework's Core module
+target_link_libraries(App PRIVATE	
+	fmt
+	spdlog
+	Core
+)
+
+target_include_directories(
+	App PRIVATE
+	${CMAKE_CURRENT_SOURCE_DIR}/Source
+	${DROP_ENGINE_DIR}/Core/Source
+)
