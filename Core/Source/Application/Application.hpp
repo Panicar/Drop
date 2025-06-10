@@ -18,6 +18,7 @@ namespace DP {
 		
 		void Execute();
 
+		// Testing
 		void Print();
 		
 		static CoreApplication* Instance() { return s_Instance; }

@@ -7,6 +7,7 @@ set(CORE_SOURCES
 # Setting header files
 set(CORE_HEADERS 
 	"Source/Application/Application.hpp"
+	"Source/EntryPoint/EntryPoint.hpp"
 	"Source/Log/Log.hpp"
 	"Source/Utils/Definitions.hpp"
 )

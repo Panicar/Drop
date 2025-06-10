@@ -1,16 +1,20 @@
+#include "App.hpp"
+
 #include <iostream>
-
-#include <Application/Application.hpp>
 #include <fmt/format.h>
-
 #include <spdlog/spdlog.h>
 
-int main()
-{
-	std::cout << "Engine is running..." << '\n';
 
-	DP::CoreApplication app;
-	app.Print();
+Sandbox::Sandbox()
+{
+	std::cout << "Sandbox created" << '\n';
+
+	SandboxTest();
+
+}
+
+void Sandbox::SandboxTest()
+{
 
 #if DP_DEV_MODE
 
@@ -21,12 +25,14 @@ int main()
 	std::cout << "Profile Mode" << '\n';
 
 #elif DP_MASTER_MODE
-	
+
 	std::cout << "Master Mode" << '\n';
 
 #endif 
 
-	while (true);
 
-	return 0;
+
 }
+
+DP_DEFINE_APPLICATION(Sandbox);
+DP_IMPLEMENT_APPLICATION;
