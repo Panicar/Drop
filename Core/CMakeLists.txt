@@ -9,7 +9,6 @@ set(CORE_HEADERS
 	"Source/Application/Application.hpp"
 	"Source/EntryPoint/EntryPoint.hpp"
 	"Source/Log/Log.hpp"
-	"Source/Utils/Definitions.hpp"
 )
 
 # Define the Core Library
@@ -23,4 +22,3 @@ target_link_libraries(Core PRIVATE fmt spdlog)
 target_include_directories(Core PUBLIC 
 	${CMAKE_CURRENT_SOURCE_DIR}/Source
 )
-

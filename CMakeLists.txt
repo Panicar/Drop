@@ -18,6 +18,10 @@ set(METADATA_VERSION ${VERSION} CACHE STRING "Version number for executable meta
 set(METADATA_PROJECT_NAME "DROP" CACHE STRING "Name of the Project")
 project("${MEATADATA_PROJECT_NAME}" VERSION "${METADATA_VERSION}" LANGUAGES C CXX)
 
+if(MSVC)
+    add_compile_options(/EHsc)  # Enable C++ exception handling with unwind semantics
+endif()
+
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
   add_compile_definitions(DP_DEV_MODE)
 elseif(CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
