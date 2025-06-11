@@ -1,11 +1,11 @@
 # Setting source files for the test executable
 set( APP_SOURCES
-	"Source/App.cpp"
+	"App.cpp"
 )
 
 # Setting header files
 set ( APP_HEADERS
-	"Source/App.hpp"
+	"App.hpp"
 )
 
 # Creating the executables

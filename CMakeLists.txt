@@ -57,7 +57,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY {CMAKE_BINARY_DIR}/Bin)
 add_subdirectory(ThirdParty)
 
 # Add Core Modules
-add_subdirectory(Core)
+add_subdirectory(Source)
 
 # Add framework tests
-add_subdirectory(Tests)
+add_subdirectory(Sandbox)

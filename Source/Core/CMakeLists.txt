@@ -1,14 +1,15 @@
 # Setting source files
 set(CORE_SOURCES
-	"Source/Application/Application.cpp"
-	"Source/Log/Log.cpp"
+	"Application/Application.cpp"
+	"Log/Log.cpp"
 )
 
 # Setting header files
 set(CORE_HEADERS 
-	"Source/Application/Application.hpp"
-	"Source/EntryPoint/EntryPoint.hpp"
-	"Source/Log/Log.hpp"
+	"Application/Application.hpp"
+	"Platform/Platform.hpp"
+	"EntryPoint/EntryPoint.hpp"
+	"Log/Log.hpp"
 )
 
 # Define the Core Library
