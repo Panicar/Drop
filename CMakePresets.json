@@ -10,7 +10,7 @@
       "name": "Base",
       "hidden": true,
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/Build/${presetName}"
+      "binaryDir": "${sourceDir}/Build/${presetName}/Int"
     },
     {
       "name": "Development",
@@ -23,7 +23,8 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_CXX_COMPILER": "cl",
-        "CMAKE_CXX_FLAGS": "/DDP_DEV_MODE"
+        "CMAKE_CXX_FLAGS": "/DDP_DEV_MODE",
+        "CMAKE_OUTPUT_BASE_DIR": "${sourceDir}/Build/Development"
       },
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
@@ -42,7 +43,8 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "RelWithDebInfo",
         "CMAKE_CXX_COMPILER": "cl",
-        "CMAKE_CXX_FLAGS": "/DDP_PROFILE_MODE"
+        "CMAKE_CXX_FLAGS": "/DDP_PROFILE_MODE",
+        "CMAKE_OUTPUT_BASE_DIR": "${sourceDir}/Build/Profile"
       },
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
@@ -61,7 +63,8 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "CMAKE_CXX_COMPILER": "cl",
-        "CMAKE_CXX_FLAGS": "/DDP_MASTER_MODE"
+        "CMAKE_CXX_FLAGS": "/DDP_MASTER_MODE",
+        "CMAKE_OUTPUT_BASE_DIR": "${sourceDir}/Build/Master"
       },
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
