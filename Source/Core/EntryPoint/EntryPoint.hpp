@@ -44,12 +44,12 @@ namespace DP {
 
 } // namespace DP
 
-#define DP_DEFINE_APPLICATION(AppClass)                                         \
-    extern "C" DP::CoreApplication* CreateApplication(int argc, char** argv) {   \
-        return new AppClass(/*argc, argv*/);                                      \
+#define DP_DEFINE_APPLICATION(AppClass)                                             \
+    extern "C" DP::CoreApplication* CreateApplication(int argc, char** argv) {      \
+        return new AppClass(/*argc, argv*/);                                        \
     }
 
 #define DP_IMPLEMENT_APPLICATION                                                    \
-    DP_MAIN_ENTRY {                                                                  \
-            return DP::FrameworkMain(argc, argv);                                     \
+    DP_MAIN_ENTRY {                                                                 \
+            return DP::FrameworkMain(argc, argv);                                   \
     }
