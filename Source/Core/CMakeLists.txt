@@ -7,7 +7,6 @@ set(CORE_SOURCES
 # Setting header files
 set(CORE_HEADERS 
 	"Application/Application.hpp"
-	"Platform/Platform.hpp"
 	"EntryPoint/EntryPoint.hpp"
 	"Log/Log.hpp"
 )
@@ -21,5 +20,5 @@ add_library(Core STATIC
 target_link_libraries(Core PRIVATE fmt spdlog)
 
 target_include_directories(Core PUBLIC 
-	${CMAKE_CURRENT_SOURCE_DIR}/Source
+	${CMAKE_CURRENT_SOURCE_DIR}
 )
