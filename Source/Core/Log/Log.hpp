@@ -9,6 +9,13 @@ namespace DP {
 	{
 	public:
 
+		Log() = delete;
+		~Log() = delete;
+		Log(const Log& other) = delete;
+		Log(Log&& other) = delete;
+		Log& operator=(Log && other) = delete;
+		Log& operator=(const Log& other) = delete;
+
 		static void Initialize();
 		static void Shutdown();
 		
