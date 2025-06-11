@@ -4,15 +4,6 @@
 #include "Application/Application.hpp"
 #include <memory>
 
-// Platform detection
-#ifdef _WIN32
-#ifdef _WIN64
-#define DP_PLATFORM_WINDOWS
-#else
-#define DP_PLATFORM_WINDOWS
-#endif
-#endif
-
 // Entry point definition
 #if defined(DP_PLATFORM_WINDOWS) && defined(DP_MASTER_MODE)
 #include <Windows.h>
@@ -47,12 +38,12 @@ namespace DP {
 
 } // namespace DP
 
-#define DP_DEFINE_APPLICATION(AppClass) \
-    extern "C" DP::CoreApplication* CreateApplication(int argc, char** argv) { \
-        return new AppClass(/*argc, argv*/); \
+#define DP_DEFINE_APPLICATION(AppClass)                                         \
+    extern "C" DP::CoreApplication* CreateApplication(int argc, char** argv) {   \
+        return new AppClass(/*argc, argv*/);                                      \
     }
 
-#define DP_IMPLEMENT_APPLICATION \
-    DP_MAIN_ENTRY { \
-            return DP::FrameworkMain(argc, argv); \
+#define DP_IMPLEMENT_APPLICATION                                                    \
+    DP_MAIN_ENTRY {                                                                  \
+            return DP::FrameworkMain(argc, argv);                                     \
     }
