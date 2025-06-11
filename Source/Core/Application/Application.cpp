@@ -12,7 +12,7 @@ namespace DP {
 		if (s_Instance)
 		{
 			DP_CORE_ERROR("Application has already exists!");
-			__debugbreak();
+			//__debugbreak();
 		}
 
 		s_Instance = this;
