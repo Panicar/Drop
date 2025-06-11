@@ -73,8 +73,6 @@
       }
     },
 
-    //--- LINUX ---
-
     {
       "name": "Development-Linux",
       "inherits": [ "Base" ],
@@ -87,7 +85,7 @@
         "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_CXX_COMPILER": "g++",
         "CMAKE_CXX_FLAGS": "-DDP_DEV_MODE",
-        "CMAKE_OUTPUT_BASE_DIR": "${sourceDir}/Build/Development"
+        "CMAKE_OUTPUT_BASE_DIR": "${sourceDir}/Build/Development-Linux"
       }
     },
 
@@ -103,7 +101,7 @@
         "CMAKE_BUILD_TYPE": "RelWithDebInfo",
         "CMAKE_CXX_COMPILER": "g++",
         "CMAKE_CXX_FLAGS": "-DDP_PROFILE_MODE",
-        "CMAKE_OUTPUT_BASE_DIR": "${sourceDir}/Build/Profile"
+        "CMAKE_OUTPUT_BASE_DIR": "${sourceDir}/Build/Profile-Linux"
       }
     },
 
@@ -119,7 +117,7 @@
         "CMAKE_BUILD_TYPE": "Release",
         "CMAKE_CXX_COMPILER": "g++",
         "CMAKE_CXX_FLAGS": "-DDP_MASTER_MODE",
-        "CMAKE_OUTPUT_BASE_DIR": "${sourceDir}/Build/Master"
+        "CMAKE_OUTPUT_BASE_DIR": "${sourceDir}/Build/Master-Linux"
       }
     }
 
