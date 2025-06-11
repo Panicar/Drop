@@ -27,9 +27,15 @@ namespace DP {
         DP_APP_CRITICAL("Hello 24124");
 
         std::unique_ptr<CoreApplication> app(CreateApplication(argc, argv));
+
+        if (!app)
+        {
+            DP_CORE_CRITICAL("Failed to create application instance!");
+            return -1;
+        }
+
         app->Execute();
-
-
+        
         Log::Shutdown();
 
         // Platform::Shutdown();
