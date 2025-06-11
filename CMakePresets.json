@@ -71,7 +71,58 @@
           "hostOS": [ "Windows" ]
         }
       }
+    },
+
+    //--- LINUX ---
+
+    {
+      "name": "Development-Linux",
+      "inherits": [ "Base" ],
+      "description": "Linux Development Build (Debug x64)",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_CXX_COMPILER": "g++",
+        "CMAKE_CXX_FLAGS": "-DDP_DEV_MODE",
+        "CMAKE_OUTPUT_BASE_DIR": "${sourceDir}/Build/Development"
+      }
+    },
+
+    {
+      "name": "Profile-Linux",
+      "inherits": [ "Base" ],
+      "description": "Linux Profile Build (RelWithDebInfo x64)",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CMAKE_CXX_COMPILER": "g++",
+        "CMAKE_CXX_FLAGS": "-DDP_PROFILE_MODE",
+        "CMAKE_OUTPUT_BASE_DIR": "${sourceDir}/Build/Profile"
+      }
+    },
+
+    {
+      "name": "Master-Linux",
+      "inherits": [ "Base" ],
+      "description": "Linux Master Build (Release x64)",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_CXX_COMPILER": "g++",
+        "CMAKE_CXX_FLAGS": "-DDP_MASTER_MODE",
+        "CMAKE_OUTPUT_BASE_DIR": "${sourceDir}/Build/Master"
+      }
     }
+
   ],
   "buildPresets": [
     {
@@ -91,7 +142,27 @@
       "configurePreset": "Master",
       "description": "Builds Master configuration",
       "cleanFirst": true
+    },
+
+    // --- LINUX ---
+    {
+      "name": "Development-Linux",
+      "configurePreset": "Development-Linux",
+      "cleanFirst": true
+    },
+
+    {
+      "name": "Profile-Linux",
+      "configurePreset": "Profile-Linux",
+      "cleanFirst": true
+    },
+
+    {
+      "name": "Master-Linux",
+      "configurePreset": "Master-Linux",
+      "cleanFirst": true
     }
+
   ],
   "testPresets": [
     {
@@ -114,6 +185,26 @@
       "output": {
         "outputOnFailure": true
       }
+    },
+
+    // --- LINUX ---
+    {
+      "name": "Development-Test-Linux",
+      "configurePreset": "Development-Linux",
+      "output": { "outputOnFailure": true }
+    },
+
+    {
+      "name": "Profile-Test-Linux",
+      "configurePreset": "Profile-Linux",
+      "output": { "outputOnFailure": true }
+    },
+
+    {
+      "name": "Master-Test-Linux",
+      "configurePreset": "Master-Linux",
+      "output": { "outputOnFailure": true }
     }
+
   ]
 }
