@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Log/Log.hpp"
 #include "Application/Application.hpp"
 #include <memory>
 
@@ -27,13 +28,18 @@ namespace DP {
 
     inline int FrameworkMain(int argc, char** argv)
     {
-        // Platform::Initialize();  // Uncomment when platform layer is ready
+        // Platform::Initialize();
 
-        // Create user application
+        Log::Initialize();
+
+        DP_CORE_ERROR("Hello");
+        DP_APP_CRITICAL("Hello 24124");
+
         std::unique_ptr<CoreApplication> app(CreateApplication(argc, argv));
-
-        // Initialize and run application
         app->Execute();
+
+
+        Log::Shutdown();
 
         // Platform::Shutdown();
         return 0;
@@ -41,13 +47,11 @@ namespace DP {
 
 } // namespace DP
 
-// Application definition macro
 #define DP_DEFINE_APPLICATION(AppClass) \
     extern "C" DP::CoreApplication* CreateApplication(int argc, char** argv) { \
         return new AppClass(/*argc, argv*/); \
     }
 
-// Main entry point macro
 #define DP_IMPLEMENT_APPLICATION \
     DP_MAIN_ENTRY { \
             return DP::FrameworkMain(argc, argv); \

@@ -1,8 +1,6 @@
 #include "Application.hpp"
-
+#include "Log/Log.hpp"
 #include <iostream>
-
-#include <spdlog/spdlog.h>
 
 namespace DP {
 
@@ -13,13 +11,13 @@ namespace DP {
 	{
 		if (s_Instance)
 		{
-			spdlog::error("Application has already exists!");
+			DP_CORE_ERROR("Application has already exists!");
 			__debugbreak();
 		}
 
 		s_Instance = this;
 
-		spdlog::info("Application has created!");
+		DP_CORE_INFO("Application has created!");
 	}
 
 	CoreApplication::~CoreApplication()
