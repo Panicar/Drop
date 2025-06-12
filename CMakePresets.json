@@ -142,7 +142,6 @@
       "cleanFirst": true
     },
 
-    // --- LINUX ---
     {
       "name": "Development-Linux",
       "configurePreset": "Development-Linux",
@@ -185,7 +184,6 @@
       }
     },
 
-    // --- LINUX ---
     {
       "name": "Development-Test-Linux",
       "configurePreset": "Development-Linux",

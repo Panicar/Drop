@@ -18,6 +18,10 @@ set(METADATA_VERSION ${VERSION} CACHE STRING "Version number for executable meta
 set(METADATA_PROJECT_NAME "DROP" CACHE STRING "Name of the Project")
 project("${MEATADATA_PROJECT_NAME}" VERSION "${METADATA_VERSION}" LANGUAGES C CXX)
 
+if(NOT CMAKE_SIZEOF_VOID_P EQUAL 8)
+    message(FATAL_ERROR "This project supports only 64-bit builds.")
+endif()
+
 if(WIN32)
     add_definitions(-DDP_PLATFORM_WINDOWS)
 elseif(APPLE)
