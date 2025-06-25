@@ -1,6 +1,8 @@
 #pragma once
 
-namespace DP {
+#include "Core.hpp"
+
+namespace drop {
 
 	class CoreApplication
 	{
@@ -25,5 +27,8 @@ namespace DP {
 
 	private:
 		static CoreApplication* s_Instance;
+
+		bool m_IsRunning = true;
+		
 	};
 }

@@ -1,55 +1,84 @@
 #pragma once
 
+#include "Platform/Platform.hpp"
 #include "Log/Log.hpp"
 #include "Application/Application.hpp"
+#include "Application/AppConfig.hpp"
 #include <memory>
 
-// Entry point definition
-#if defined(DP_PLATFORM_WINDOWS) && defined(DP_MASTER_MODE)
-#include <Windows.h>
-#define DP_MAIN_ENTRY int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
-#else
-#define DP_MAIN_ENTRY int main(int argc, char** argv)
-#endif
 
-namespace DP {
+namespace drop {
 
-    // Forward declaration of application creation function
-    extern "C" CoreApplication* CreateApplication(int argc, char** argv);
+    // Forward declaration: user must define this in their application
+    extern "C" CoreApplication* CreateApplication();
 
-    inline int FrameworkMain(int argc, char** argv)
+    inline int Main(IAppConfig* config)
     {
-        // Platform::Initialize();
-
         Log::Initialize();
+        IPlatform::Initialize();
 
-        DP_CORE_ERROR("Hello");
-        DP_APP_CRITICAL("Hello 24124");
+        CoreApplication* app = CreateApplication();
 
-        std::unique_ptr<CoreApplication> app(CreateApplication(argc, argv));
-
-        if (!app)
+        if (!app) 
         {
             DP_CORE_CRITICAL("Failed to create application instance!");
+            IPlatform::Terminate();
+            Log::Shutdown();
             return -1;
         }
 
-        app->Execute();
-        
-        Log::Shutdown();
+        auto appConfig = static_cast<ConsoleAppConfig*>(config);
+        std::string args;
+        for (int i = 0; i < appConfig->argc; ++i) {
+            args += std::string(appConfig->argv[i]) + " ";
+        }
+        DP_CORE_CRITICAL("Argc: {}, Argv: {}", appConfig->argc, args);
 
-        // Platform::Shutdown();
+        app->Execute();
+        delete app;
+
+        IPlatform::Terminate();
+        Log::Shutdown();
         return 0;
     }
 
-} // namespace DP
+} // namespace drop
 
-#define DP_DEFINE_APPLICATION(AppClass)                                             \
-    extern "C" DP::CoreApplication* CreateApplication(int argc, char** argv) {      \
-        return new AppClass(/*argc, argv*/);                                        \
-    }
+#if defined(DP_PLATFORM_WINDOWS) && defined(DP_MASTER_MODE)
+#define MAIN \
+int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)   \
+{                                                                                                   \
+    auto config = new drop::WinAppConfig;                                                           \
+    config->hInstance = hInstance;                                                                  \
+    config->hPrevInstance = hPrevInstance;                                                          \
+    config->lpCmdLine = lpCmdLine;                                                                  \
+    config->nCmdShow = nCmdShow;                                                                    \
+    int result = drop::Main(config);                                                                \
+    delete config;                                                                                  \
+    return result;                                                                                  \
+}
+#else
+#define MAIN \
+int main(int argc, char** argv)                                                                     \
+{                                                                                                   \
+    auto config = new drop::ConsoleAppConfig;                                                       \
+    config->argc = argc;                                                                            \
+    config->argv = argv;                                                                            \
+    int result = drop::Main(config);                                                                \
+    delete config;                                                                                  \
+    return result;                                                                                  \
+}
+#endif
 
-#define DP_IMPLEMENT_APPLICATION                                                    \
-    DP_MAIN_ENTRY {                                                                 \
-            return DP::FrameworkMain(argc, argv);                                   \
-    }
+#define DP_IMPLEMENT_ENTRY_POINT MAIN;
+    
+
+
+#define DP_IMPLEMENT_APPLICATION(AppClass)                                              \
+    extern "C" drop::CoreApplication* CreateApplication()                               \
+    {                                                                                   \
+        return new AppClass();                                                          \
+    }                                                                                   \
+                                                                                        \
+    DP_IMPLEMENT_ENTRY_POINT;                                                           \
+    

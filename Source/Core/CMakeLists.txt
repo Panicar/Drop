@@ -2,13 +2,23 @@
 set(CORE_SOURCES
 	"Application/Application.cpp"
 	"Log/Log.cpp"
+	"Platform/Platform.cpp"
+	
+	# TODO: change this
+	"Platform/Windows/PlatformWindows.cpp"
 )
 
 # Setting header files
 set(CORE_HEADERS 
+	"Core.hpp"
 	"Application/Application.hpp"
+	"Application/AppConfig.hpp"
 	"EntryPoint/EntryPoint.hpp"
 	"Log/Log.hpp"
+	"Platform/Platform.hpp"
+
+	# TODO: change this
+	"Platform/Windows/PlatformWindows.hpp"
 )
 
 # Define the Core Library

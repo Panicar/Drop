@@ -7,7 +7,7 @@
 #include <spdlog/sinks/rotating_file_sink.h>
 #include <iostream>
 
-namespace DP {
+namespace drop {
 
 	std::shared_ptr<spdlog::logger> Log::s_CoreLogger = nullptr;
 	std::shared_ptr<spdlog::logger> Log::s_AppLogger = nullptr;

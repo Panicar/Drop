@@ -3,7 +3,7 @@
 #include <memory>
 #include <spdlog/spdlog.h>
 
-namespace DP {
+namespace drop {
 
 	class Log
 	{
@@ -32,15 +32,15 @@ namespace DP {
 }
 
 // Core (Framework) logging macros
-#define DP_CORE_TRACE(...)			DP::Log::GetCoreLogger()->trace(__VA_ARGS__)
-#define DP_CORE_INFO(...)			DP::Log::GetCoreLogger()->info(__VA_ARGS__)
-#define DP_CORE_WARN(...)			DP::Log::GetCoreLogger()->warn(__VA_ARGS__)
-#define DP_CORE_ERROR(...)			DP::Log::GetCoreLogger()->error(__VA_ARGS__)
-#define DP_CORE_CRITICAL(...)		DP::Log::GetCoreLogger()->critical(__VA_ARGS__)
+#define DP_CORE_TRACE(...)			drop::Log::GetCoreLogger()->trace(__VA_ARGS__)
+#define DP_CORE_INFO(...)			drop::Log::GetCoreLogger()->info(__VA_ARGS__)
+#define DP_CORE_WARN(...)			drop::Log::GetCoreLogger()->warn(__VA_ARGS__)
+#define DP_CORE_ERROR(...)			drop::Log::GetCoreLogger()->error(__VA_ARGS__)
+#define DP_CORE_CRITICAL(...)		drop::Log::GetCoreLogger()->critical(__VA_ARGS__)
 
 // Application logging macros
-#define DP_APP_TRACE(...)			DP::Log::GetAppLogger()->trace(__VA_ARGS__)
-#define DP_APP_INFO(...)			DP::Log::GetAppLogger()->info(__VA_ARGS__)
-#define DP_APP_WARN(...)			DP::Log::GetAppLogger()->warn(__VA_ARGS__)
-#define DP_APP_ERROR(...)			DP::Log::GetAppLogger()->error(__VA_ARGS__)
-#define DP_APP_CRITICAL(...)		DP::Log::GetAppLogger()->critical(__VA_ARGS__)
+#define DP_APP_TRACE(...)			drop::Log::GetAppLogger()->trace(__VA_ARGS__)
+#define DP_APP_INFO(...)			drop::Log::GetAppLogger()->info(__VA_ARGS__)
+#define DP_APP_WARN(...)			drop::Log::GetAppLogger()->warn(__VA_ARGS__)
+#define DP_APP_ERROR(...)			drop::Log::GetAppLogger()->error(__VA_ARGS__)
+#define DP_APP_CRITICAL(...)		drop::Log::GetAppLogger()->critical(__VA_ARGS__)

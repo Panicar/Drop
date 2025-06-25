@@ -34,5 +34,4 @@ void Sandbox::SandboxTest()
 
 }
 
-DP_DEFINE_APPLICATION(Sandbox);
-DP_IMPLEMENT_APPLICATION;
+DP_IMPLEMENT_APPLICATION(Sandbox);

@@ -2,7 +2,7 @@
 #include "Log/Log.hpp"
 #include <iostream>
 
-namespace DP {
+namespace drop {
 
 
 	CoreApplication* CoreApplication::s_Instance = nullptr;
@@ -18,6 +18,7 @@ namespace DP {
 		s_Instance = this;
 
 		DP_CORE_INFO("Application has created!");
+
 	}
 
 	CoreApplication::~CoreApplication()
@@ -27,12 +28,22 @@ namespace DP {
 
 	void CoreApplication::Execute()
 	{
-		while (true)// <- Is Application Running 
+		char a = {};
+
+		while (m_IsRunning)
 		{
 			OnUpdate();
+			
+			std::cin >> a;
+			if (a == 'q')
+			{
+				m_IsRunning = false;
+				break;
+			}
+			
 		}
 	}
-
+		
 	void CoreApplication::Print()
 	{
 		std::cout << "Application Print ... " << '\n';
