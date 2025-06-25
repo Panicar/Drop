@@ -1,6 +1,6 @@
 # Setting source files
 set(CORE_SOURCES
-	"Application/Application.cpp"
+	"App/App.cpp"
 	"Log/Log.cpp"
 	"Platform/Platform.cpp"
 	
@@ -11,8 +11,8 @@ set(CORE_SOURCES
 # Setting header files
 set(CORE_HEADERS 
 	"Core.hpp"
-	"Application/Application.hpp"
-	"Application/AppConfig.hpp"
+	"App/App.hpp"
+	"App/AppConfig.hpp"
 	"EntryPoint/EntryPoint.hpp"
 	"Log/Log.hpp"
 	"Platform/Platform.hpp"

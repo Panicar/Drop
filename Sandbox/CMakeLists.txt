@@ -1,28 +1,28 @@
 # Setting source files for the test executable
 set( APP_SOURCES
-	"App.cpp"
+	"Sandbox.cpp"
 )
 
 # Setting header files
 set ( APP_HEADERS
-	"App.hpp"
+	"Sandbox.hpp"
 )
 
 # Creating the executables
-add_executable(App
+add_executable(Sandbox
 	${APP_SOURCES}
 	${APP_HEADERS}
 )
 
 # Link the framework's Core module
-target_link_libraries(App PRIVATE	
+target_link_libraries(Sandbox PRIVATE	
 	fmt
 	spdlog
-	Core
+	Drop
 )
 
 target_include_directories(
-	App PRIVATE
+	Sandbox PRIVATE
 	${CMAKE_CURRENT_SOURCE_DIR}/
-	${DROP_ENGINE_DIR}/Source/
+	${DROP_ENGINE_DIR}/Source/Drop/
 )

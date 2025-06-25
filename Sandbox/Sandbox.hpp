@@ -1,9 +1,9 @@
 #pragma once
 
-#include <Application/Application.hpp>
+#include <App/App.hpp>
 #include <EntryPoint/EntryPoint.hpp>
 
-class Sandbox : public drop::CoreApplication
+class Sandbox : public drop::CoreApp
 {
 public:
 

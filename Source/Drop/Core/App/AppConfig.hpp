@@ -11,7 +11,7 @@ namespace drop
 
 		virtual ~IAppConfig()
 		{
-			DP_CORE_ERROR("APP CONFIG DELETED!!!");
+			DP_CORE_ERROR("Application CONFIG DELETED!!!");
 		}
 	};
 

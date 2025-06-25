@@ -1,4 +1,4 @@
-#include "App.hpp"
+#include "Sandbox.hpp"
 
 #include <iostream>
 #include <fmt/format.h>
@@ -10,7 +10,6 @@ Sandbox::Sandbox()
 	std::cout << "Sandbox created" << '\n';
 
 	SandboxTest();
-
 }
 
 void Sandbox::SandboxTest()
@@ -34,4 +33,4 @@ void Sandbox::SandboxTest()
 
 }
 
-DP_IMPLEMENT_APPLICATION(Sandbox);
+DP_IMPLEMENT_APP(Sandbox);
