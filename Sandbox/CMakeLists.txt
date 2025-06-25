@@ -18,11 +18,11 @@ add_executable(Sandbox
 target_link_libraries(Sandbox PRIVATE	
 	fmt
 	spdlog
-	Core
+	Drop
 )
 
 target_include_directories(
 	Sandbox PRIVATE
 	${CMAKE_CURRENT_SOURCE_DIR}/
-	${DROP_ENGINE_DIR}/Source/
+	${DROP_ENGINE_DIR}/Source/Engine/
 )
