@@ -27,8 +27,10 @@ add_library(Core STATIC
 	${CORE_HEADERS}
 )
 
-target_link_libraries(Core PRIVATE fmt spdlog)
+target_link_libraries(Core PRIVATE fmt::fmt spdlog::spdlog)
 
 target_include_directories(Core PUBLIC 
 	${CMAKE_CURRENT_SOURCE_DIR}
+	${DROP_ENGINE_DIR}/ThirdParty/fmt/include
+	${DROP_ENGINE_DIR}/ThirdParty/spdlog/include
 )
