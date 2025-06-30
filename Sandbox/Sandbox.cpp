@@ -5,7 +5,8 @@
 #include <spdlog/spdlog.h>
 
 
-Sandbox::Sandbox()
+Sandbox::Sandbox(const drop::CommandLineArgs& args)
+	: drop::CoreApp(args)
 {
 	std::cout << "Sandbox created" << '\n';
 

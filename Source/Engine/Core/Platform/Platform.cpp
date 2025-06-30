@@ -1,7 +1,7 @@
 #include "Platform.hpp"
-#include "Log/Log.hpp"
-
 #include "Core.hpp"
+
+
 #ifdef DP_PLATFORM_WINDOWS
 	#include "Windows/PlatformWindows.hpp"
 	using Platform = drop::PlatformWindows;
@@ -14,9 +14,14 @@
 	namespace drop {
 
 
-	std::unique_ptr<IPlatform> IPlatform::s_Instance = nullptr;
+	IPlatform* IPlatform::s_Instance = nullptr;
 
-	void IPlatform::Initialize(void* instance)
+	void IPlatform::Initialize()
+	{
+		s_Instance->InitializeImpl();
+	}
+
+	IPlatform* IPlatform::Create(void* hInstance)
 	{
 		if (s_Instance)
 		{
@@ -24,14 +29,9 @@
 			assert(1);
 		}
 
-		s_Instance = IPlatform::Create();
+		s_Instance = new Platform(hInstance);
 
-		s_Instance->InitializeImpl(instance);
-	}
-
-	std::unique_ptr<IPlatform> IPlatform::Create()
-	{
-		return std::make_unique<Platform>();
+		return s_Instance;
 	}
 
 }

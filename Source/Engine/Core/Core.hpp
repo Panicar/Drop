@@ -11,6 +11,10 @@
 
 #endif
 
+#ifdef __linux__
+#define DP_PLATFORM_LINUX
+#endif
+
 #ifdef DP_PLATFORM_WINDOWS
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX   

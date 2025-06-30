@@ -13,7 +13,7 @@
       "binaryDir": "${sourceDir}/Build/${presetName}/Int"
     },
     {
-      "name": "Development",
+      "name": "Development-Windows",
       "description": "Windows Development Build (Debug x64)",
       "inherits": [ "Base" ],
       "architecture": {
@@ -33,7 +33,7 @@
       }
     },
     {
-      "name": "Profile",
+      "name": "Profile-Windows",
       "description": "Windows Profile Build (RelWithDebInfo x64)",
       "inherits": [ "Base" ],
       "architecture": {
@@ -53,7 +53,7 @@
       }
     },
     {
-      "name": "Master",
+      "name": "Master-Windows",
       "description": "Windows Master Build (Release x64)",
       "inherits": [ "Base" ],
       "architecture": {
@@ -124,20 +124,20 @@
   ],
   "buildPresets": [
     {
-      "name": "Development",
-      "configurePreset": "Development",
+      "name": "Development-Windows",
+      "configurePreset": "Development-Windows",
       "description": "Builds Development configuration",
-      "cleanFirst": true
+      "cleanFirst": false
     },
     {
-      "name": "Profile",
-      "configurePreset": "Profile",
+      "name": "Profile-Windows",
+      "configurePreset": "Profile-Windows",
       "description": "Builds Profile configuration",
-      "cleanFirst": true
+      "cleanFirst": false
     },
     {
-      "name": "Master",
-      "configurePreset": "Master",
+      "name": "Master-Windows",
+      "configurePreset": "Master-Windows",
       "description": "Builds Master configuration",
       "cleanFirst": true
     },
@@ -145,13 +145,13 @@
     {
       "name": "Development-Linux",
       "configurePreset": "Development-Linux",
-      "cleanFirst": true
+      "cleanFirst": false
     },
 
     {
       "name": "Profile-Linux",
       "configurePreset": "Profile-Linux",
-      "cleanFirst": true
+      "cleanFirst": false
     },
 
     {
@@ -163,22 +163,22 @@
   ],
   "testPresets": [
     {
-      "name": "Development-Test",
-      "configurePreset": "Development",
+      "name": "Development-Test-Windows",
+      "configurePreset": "Development-Windows",
       "output": {
         "outputOnFailure": true
       }
     },
     {
-      "name": "Profile-Test",
-      "configurePreset": "Profile",
+      "name": "Profile-Test-Windows",
+      "configurePreset": "Profile-Windows",
       "output": {
         "outputOnFailure": true
       }
     },
     {
-      "name": "Master-Test",
-      "configurePreset": "Master",
+      "name": "Master-Test-Windows",
+      "configurePreset": "Master-Windows",
       "output": {
         "outputOnFailure": true
       }

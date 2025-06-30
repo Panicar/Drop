@@ -4,17 +4,20 @@
 
 #include "Core.hpp"
 
+
 namespace drop {
 
 	class PlatformWindows : public IPlatform
 	{
 	public:
 
-		void InitializeImpl(void* instance) override;
+		PlatformWindows(void* hInstance);
+		~PlatformWindows() override;
+		void InitializeImpl() override;
 		void TerminateImpl() override;
 			
 	private:
-
+		HINSTANCE m_HInstance;
 	};
 
 }

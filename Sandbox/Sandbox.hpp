@@ -7,7 +7,7 @@ class Sandbox : public drop::CoreApp
 {
 public:
 
-	Sandbox();
+	Sandbox(const drop::CommandLineArgs& args);
 
 	void SandboxTest();
 

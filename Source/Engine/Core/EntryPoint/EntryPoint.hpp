@@ -3,82 +3,123 @@
 #include "Platform/Platform.hpp"
 #include "Log/Log.hpp"
 #include "App/App.hpp"
-#include "App/AppConfig.hpp"
-#include <memory>
 
-namespace drop {
+#if defined(DP_PLATFORM_WINDOWS)
+#include <shellapi.h>
 
-    // Forward declaration: user must define this in their App
-    extern "C" CoreApp* CreateApp();
+#if defined(DP_MASTER_MODE)
+#define MAIN int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+#define ARGS HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow
+#define PASS_ARGS hInstance, hPrevInstance, lpCmdLine, nCmdShow
+#else
+#define MAIN int main(int argc, char** argv)
+#define ARGS int argc, char** argv
+#define PASS_ARGS argc, argv
+#endif
 
-    inline int Main(IAppConfig* config)
+extern drop::CoreApp* drop::CreateApp(const drop::CommandLineArgs& args);
+
+namespace drop
+{
+    int Main(ARGS)
     {
         Log::Initialize();
+
+#if defined(DP_MASTER_MODE)
+        IPlatform::Create(hInstance);
+#else
+        IPlatform::Create(GetModuleHandleA(0));
+#endif
         IPlatform::Initialize();
 
-        CoreApp* app = CreateApp();
-        
-        if (!app) 
+        CommandLineArgs commandLineArgs = {};
+
+#if defined(DP_MASTER_MODE)
+        LPWSTR cmdLine = GetCommandLineW();
+        int argc;
+        LPWSTR* argv = CommandLineToArgvW(cmdLine, &argc);
+
+        commandLineArgs.Argc = argc;
+        commandLineArgs.Argv = new char* [argc];
+        for (int i = 0; i < argc; i++) {
+            int size = WideCharToMultiByte(CP_UTF8, 0, argv[i], -1, nullptr, 0, nullptr, nullptr);
+            commandLineArgs.Argv[i] = new char[size];
+            WideCharToMultiByte(CP_UTF8, 0, argv[i], -1, commandLineArgs.Argv[i], size, nullptr, nullptr);
+        }
+        LocalFree(argv);
+#else
+
+        commandLineArgs.Argc = argc;
+        commandLineArgs.Argv = argv;
+#endif
+        CoreApp* app = CreateApp(commandLineArgs);
+
+        if (!app)
         {
             DP_CORE_CRITICAL("Failed to create App instance!");
             IPlatform::Terminate();
+            delete IPlatform::Instance();
             Log::Shutdown();
+
+#if defined(DP_MASTER_MODE)
+            for (int i = 0; i < commandLineArgs.Argc; ++i)
+                delete[] commandLineArgs.Argv[i];
+            delete[] commandLineArgs.Argv;
+#endif
             return -1;
         }
 
-#ifdef DP_DEV_MODE
-        auto appConfig = static_cast<ConsoleAppConfig*>(config);
-        std::string args;
-        for (int i = 0; i < appConfig->argc; ++i) {
-            args += std::string(appConfig->argv[i]) + " ";
-        }
-        DP_CORE_WARN("Argc: {}, Argv: {}", appConfig->argc, args);
-#endif
- 
-        app->Execute();
+        app->Run();
         delete app;
 
-        IPlatform::Terminate();
-        Log::Shutdown();
-        return 0;
-    }
-
-} // namespace drop
-
-// TODO: switch to std::unique_ptr
-#if defined(DP_PLATFORM_WINDOWS) && defined(DP_MASTER_MODE)
-#define MAIN \
-int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)   \
-{                                                                                                   \
-    auto config = new drop::WinAppConfig;                                                           \
-    config->hInstance = hInstance;                                                                  \
-    config->hPrevInstance = hPrevInstance;                                                          \
-    config->lpCmdLine = lpCmdLine;                                                                  \
-    config->nCmdShow = nCmdShow;                                                                    \
-    int result = drop::Main(config);                                                                \
-    delete config;                                                                                  \
-    return result;                                                                                  \
-}
-#else
-#define MAIN \
-int main(int argc, char** argv)                         \
-{                                                       \
-    auto config = new drop::ConsoleAppConfig;           \
-    config->argc = argc;                                \
-    config->argv = argv;                                \
-    int result = drop::Main(config);                    \
-    delete config;                                      \
-    return result;                                      \
-}
+#if defined(DP_MASTER_MODE)
+        for (int i = 0; i < commandLineArgs.Argc; ++i) {
+            delete[] commandLineArgs.Argv[i];
+        }
+        delete[] commandLineArgs.Argv;
 #endif
 
-#define DP_IMPLEMENT_ENTRY_POINT MAIN;
+        IPlatform::Terminate();
+        delete IPlatform::Instance();
 
-#define DP_IMPLEMENT_APP(AppClass)                      \
-    extern "C" drop::CoreApp* CreateApp()               \
-    {                                                   \
-        return new AppClass();                          \
-    }                                                   \
-                                                        \
-    DP_IMPLEMENT_ENTRY_POINT;                           \
-    
+        Log::Shutdown();
+        return 0;
+
+    }
+} // namespace drop
+
+#endif // defined Windows
+
+#if defined(DP_PLATFORM_LINUX) || defined(DP_PLATFORM_MACOS)
+#define MAIN int main(int argc, char** argv)
+#define ARGS int argc, char** argv
+#define PASS_ARGS argc, argv
+
+namespace drop
+{
+    int Main(ARGS)
+    {
+        DP_CORE_INFO("Unix");
+
+        return 0;
+    }
+}
+
+#endif
+
+#ifndef MAIN
+#error MAIN is not defined
+#endif
+
+#define DP_IMPLEMENT_MAIN               \
+    MAIN                                \
+    {                                   \
+        return drop::Main(PASS_ARGS);   \
+    }
+
+#define DP_IMPLEMENT_APP(AppClass)                                              \
+    drop::CoreApp* drop::CreateApp(const drop::CommandLineArgs& args)           \
+    {                                                                           \
+        return new AppClass(args);                                              \
+    }                                                                           \
+    DP_IMPLEMENT_MAIN;                                                          \

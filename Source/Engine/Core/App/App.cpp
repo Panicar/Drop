@@ -7,7 +7,7 @@ namespace drop {
 
 	CoreApp* CoreApp::s_Instance = nullptr;
 
-	CoreApp::CoreApp()
+	CoreApp::CoreApp(const CommandLineArgs& args)
 	{
 		if (s_Instance)
 		{
@@ -26,13 +26,13 @@ namespace drop {
 
 	}
 
-	void CoreApp::Execute()
+	void CoreApp::Run()
 	{
 		char a = {};
 
 		while (m_IsRunning)
 		{
-			OnUpdate();
+			Update();
 			
 			std::cin >> a;
 			if (a == 'q')
@@ -46,7 +46,6 @@ namespace drop {
 		
 	void CoreApp::Print()
 	{
-		std::cout << "App Print ... " << '\n';
-
+		DP_CORE_DEBUG("[APP]: CoreApp::Print()");
 	}
 }

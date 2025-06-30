@@ -2,13 +2,22 @@
 
 #include "Core.hpp"
 
+#include <string>
+
 namespace drop {
+
+	struct CommandLineArgs
+	{
+		// TODO: fix here
+		int Argc = 0;
+		char** Argv = nullptr;
+	};
 
 	class CoreApp
 	{
 	public:
 
-		CoreApp();
+		CoreApp(const CommandLineArgs& args);
 		virtual ~CoreApp();
 
 		CoreApp(const CoreApp& other) = delete;
@@ -16,9 +25,9 @@ namespace drop {
 		CoreApp& operator=(const CoreApp& other) = delete;
 		CoreApp& operator=(CoreApp&& other) = delete;
 
-		void OnUpdate() {}
+		void Update() {}
 		
-		void Execute();
+		void Run();
 
 		// Testing
 		void Print();
@@ -31,5 +40,7 @@ namespace drop {
 		bool m_IsRunning = true;
 		
 	};
+
+	CoreApp* CreateApp(const CommandLineArgs& args);
 
 }

@@ -1,16 +1,31 @@
 #include "PlatformWindows.hpp"
 #include "Log/Log.hpp"
 
-
 namespace drop
 {
-	void PlatformWindows::InitializeImpl(void* instance)
+	static LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+	PlatformWindows::PlatformWindows(void* hInstance)
+		: m_HInstance((HINSTANCE)hInstance)
+	{
+
+	}
+
+	PlatformWindows::~PlatformWindows()
+	{
+		DP_CORE_DEBUG("PLATFORM WINDOWS DELETED!");
+	}
+
+	void PlatformWindows::InitializeImpl()
 	{
 		DP_CORE_INFO("Platform initialized!");
 
 		// Register window class
-		WNDCLASS wndClass = {};
-		wndClass.style = CS_DBLCLKS;
+		WNDCLASSEXW wc = { sizeof(wc)};
+		wc.style = CS_DBLCLKS;
+		wc.lpfnWndProc = WndProc;
+		wc.hInstance = m_HInstance;
+		
 
 	}
 
@@ -19,7 +34,7 @@ namespace drop
 		DP_CORE_INFO("Platform terminated!");
 	}
 
-	LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+	static LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		if (hWnd != nullptr)
 		{

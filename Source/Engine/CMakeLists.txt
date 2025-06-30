@@ -12,7 +12,6 @@ set(CORE_SOURCES
 set(CORE_HEADERS 
 	"Core/Core.hpp"
 	"Core/App/App.hpp"
-	"Core/App/AppConfig.hpp"
 	"Core/EntryPoint/EntryPoint.hpp"
 	"Core/Log/Log.hpp"
 	"Core/Platform/Platform.hpp"
@@ -30,4 +29,5 @@ target_link_libraries(Drop PRIVATE fmt spdlog)
 
 target_include_directories(Drop PUBLIC 
 	${CMAKE_CURRENT_SOURCE_DIR}/Core/
+	#${CMAKE_CURRENT_SOURCE_DIR}/Core/Platform/
 )
