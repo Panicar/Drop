@@ -2,7 +2,8 @@
 #include "Log/Log.hpp"
 #include <iostream>
 
-namespace drop {
+namespace drop
+{
 
 
 	CoreApp* CoreApp::s_Instance = nullptr;
@@ -19,11 +20,14 @@ namespace drop {
 
 		DP_CORE_INFO("App has created!");
 
+		WindowProperties props;
+		m_Window = IWindow::Create(props);
+
 	}
 
 	CoreApp::~CoreApp()
 	{
-
+		delete m_Window;
 	}
 
 	void CoreApp::Run()
@@ -33,13 +37,8 @@ namespace drop {
 		while (m_IsRunning)
 		{
 			Update();
-			
-			std::cin >> a;
-			if (a == 'q')
-			{
-				m_IsRunning = false;
-				break;
-			}
+		
+			m_Window->Update();
 			
 		}
 	}

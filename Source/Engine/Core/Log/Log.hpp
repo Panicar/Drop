@@ -3,7 +3,8 @@
 #include <memory>
 #include <spdlog/spdlog.h>
 
-namespace drop {
+namespace drop 
+{
 
 	class Log
 	{

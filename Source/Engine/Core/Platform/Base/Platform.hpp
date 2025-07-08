@@ -1,21 +1,21 @@
 #pragma once
 
 #include "Log/Log.hpp"
-
 #include <memory>
 
-namespace drop {
+namespace drop 
+{
 
 	class IPlatform
 	{
 	public:
 
-		virtual ~IPlatform() { DP_CORE_DEBUG("IPlatform is destroyed!"); }
+		virtual ~IPlatform() = default;
 
-		/*IPlatform(const IPlatform&) = delete;
+		IPlatform(const IPlatform&) = delete;
 		IPlatform& operator=(const IPlatform&) = delete;
 		IPlatform(IPlatform&&) = delete;
-		IPlatform& operator=(IPlatform&&) = delete;*/
+		IPlatform& operator=(IPlatform&&) = delete;
 		
 		static IPlatform* Create(void* hInstance);
 
@@ -23,6 +23,18 @@ namespace drop {
 		static void Terminate() { IPlatform::Instance()->TerminateImpl(); }
 
 		static IPlatform* Instance() noexcept { return s_Instance; }
+
+		static void Destroy() { delete s_Instance; s_Instance = nullptr; }
+
+		template<typename T>
+		static T* As() noexcept
+		{
+			static_assert(std::is_base_of<IPlatform, T>::value, "T must inherit from IPlatform");
+			return static_cast<T*>(s_Instance);
+		}
+
+	protected:
+		IPlatform() = default;
 
 	private:
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Platform/Platform.hpp"
+#include "Platform/Base/Platform.hpp"
 #include "Log/Log.hpp"
 #include "App/App.hpp"
 
@@ -58,7 +58,7 @@ namespace drop
         {
             DP_CORE_CRITICAL("Failed to create App instance!");
             IPlatform::Terminate();
-            delete IPlatform::Instance();
+            IPlatform::Destroy();
             Log::Shutdown();
 
 #if defined(DP_MASTER_MODE)
@@ -80,7 +80,7 @@ namespace drop
 #endif
 
         IPlatform::Terminate();
-        delete IPlatform::Instance();
+        IPlatform::Destroy();
 
         Log::Shutdown();
         return 0;

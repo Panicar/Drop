@@ -1,10 +1,12 @@
 #pragma once
 
 #include "Core.hpp"
+#include "Platform/Base/Window.hpp"
 
 #include <string>
 
-namespace drop {
+namespace drop 
+{
 
 	struct CommandLineArgs
 	{
@@ -36,8 +38,9 @@ namespace drop {
 
 	private:
 		static CoreApp* s_Instance;
-
 		bool m_IsRunning = true;
+
+		IWindow* m_Window = nullptr;
 		
 	};
 

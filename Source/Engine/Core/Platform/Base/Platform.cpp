@@ -3,15 +3,16 @@
 
 
 #ifdef DP_PLATFORM_WINDOWS
-	#include "Windows/PlatformWindows.hpp"
-	using Platform = drop::PlatformWindows;
+	#include "Platform/Windows/WindowsPlatform.hpp"
+	using Platform = drop::WindowsPlatform;
 #elif DP_PLATFORM_LINUX
-	#include "Linux/PlatformLinux.hpp"
+	#include "Platform/Linux/PlatformLinux.hpp"
 	uinsg Platform = drop::PlatformLinux;
 #endif
 
 
-	namespace drop {
+	namespace drop 
+	{
 
 
 	IPlatform* IPlatform::s_Instance = nullptr;
