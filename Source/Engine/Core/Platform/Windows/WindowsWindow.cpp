@@ -3,20 +3,9 @@
 #include "WindowsPlatform.hpp"
 
 #include <WinUser.h>
-#include <ShellScalingApi.h>
-#pragma comment(lib, "Shcore.lib")
 
 #include <dwmapi.h>
 #pragma comment(lib, "dwmapi.lib")
-
-
-#include <uxtheme.h>
-#include <vssym32.h>
-
-#pragma comment(lib, "uxtheme.lib")
-#pragma comment(lib, "gdi32.lib")
-#pragma comment(lib, "user32.lib")
-
 
 #ifndef GET_X_LPARAM  
 #define GET_X_LPARAM(lp) ((int)(short)LOWORD(lp))  
@@ -26,12 +15,11 @@
 #define GET_Y_LPARAM(lp) ((int)(short)HIWORD(lp))  
 #endif
 
-#define CUSTOM_TITLEBAR_HEIGHT 40
+#define TITLEBAR_HEIGHT 40
 
 namespace drop
 {
 	const WCHAR WindowsWindow::WindowClassName[] = L"DropWindow";
-	const WCHAR WindowsWindow::ClientWindowClassName[] = L"DropClientWindow";
 
 	WindowsWindow::WindowsWindow(const WindowProperties& props)
 		: m_Properties(props)
@@ -45,7 +33,6 @@ namespace drop
 	{
 		Terminate();
 		m_WindowHandle = nullptr;
-		m_ClientWindowHandle = nullptr;
 		
 		DP_CORE_INFO("Windows Windows destroyed!");
 	}
@@ -142,33 +129,6 @@ namespace drop
 		}
 		DP_CORE_INFO("Window created successfully!");
 
-		if (m_UsingCustomTitlebar)
-		{
-			m_ClientWindowHandle = CreateWindowExW(
-				0,
-				ClientWindowClassName,
-				L"",
-				WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS,
-				0, 1, width, height - 1,
-				m_WindowHandle,
-				nullptr,
-				m_HInstance,
-				this
-			);
-
-			if (!m_ClientWindowHandle) 
-			{
-				DP_CORE_ERROR("Failed to create client window");
-			}
-			else 
-			{
-				SetWindowPos(m_ClientWindowHandle, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-				UpdateWindow(m_ClientWindowHandle);
-				DP_CORE_INFO("Client window created successfully!");
-			}
-
-		}
-
 		// Testing
 		const uint32_t captionColor = RGB(15, 15, 15);
 		DwmSetWindowAttribute(m_WindowHandle, DWMWA_CAPTION_COLOR, &captionColor, sizeof(captionColor));
@@ -195,14 +155,6 @@ namespace drop
 		{
 			DP_CORE_ERROR("Window handle is null, cannot destroy window!");
 		}
-		
-		if (m_ClientWindowHandle)
-		{
-			DestroyWindow(m_ClientWindowHandle);
-			m_ClientWindowHandle = nullptr;
-			DP_CORE_INFO("Client window destroyed successfully!");
-		}
-
 	}
 
     bool WindowsWindow::IsMaximized() const  
@@ -252,28 +204,32 @@ namespace drop
 		
 			case WM_SIZE:
 			{
-				if (m_ClientWindowHandle)
-				{
-					// Resize client window to fill main window's client area
-					RECT rc;
-					GetClientRect(m_WindowHandle, &rc);
-					SetWindowPos(m_ClientWindowHandle, nullptr,
-						0, 1, rc.right, rc.bottom - 1,
-						SWP_NOZORDER | SWP_NOACTIVATE);
-				}
 				break;
 			}
 
 			case WM_PAINT:
 			{
-				if(m_UsingCustomTitlebar)
+				if (!m_UsingCustomTitlebar)
 					break;
 
 				PAINTSTRUCT ps;
 				HDC hdc = BeginPaint(m_WindowHandle, &ps);
-				HBRUSH brush = CreateSolidBrush(RGB(126, 26, 26));
-				FillRect(hdc, &ps.rcPaint, brush);
-				DeleteObject(brush);
+
+				// Render custom titlebar and client area here
+				// Example: Fill with different color for titlebar area
+				RECT titlebarRect = ps.rcPaint;
+				HBRUSH titleBrush = CreateSolidBrush(RGB(10, 10, 10));
+				titlebarRect.bottom = TITLEBAR_HEIGHT; // Titlebar height
+				FillRect(hdc, &titlebarRect, titleBrush);
+				DeleteObject(titleBrush);
+
+				RECT clientRect = ps.rcPaint;
+				HBRUSH clientBrush = CreateSolidBrush(RGB(26, 26, 26));
+				clientRect.top = TITLEBAR_HEIGHT;
+				FillRect(hdc, &clientRect, clientBrush);
+				DeleteObject(clientBrush);
+
+
 				EndPaint(m_WindowHandle, &ps);
 		
 				return 0;
@@ -306,7 +262,7 @@ namespace drop
 				return 0;
 			}
 #endif
-
+			// TODO: Handle custom titlebar buttons (close, minimize, maximize)
 			case WM_NCHITTEST:
 			{
 				if (!m_UsingCustomTitlebar)
@@ -342,7 +298,7 @@ namespace drop
 					return HTTOP;
 				}
 
-				if (cursorPoint.y <= CUSTOM_TITLEBAR_HEIGHT) {
+				if (cursorPoint.y <= TITLEBAR_HEIGHT) {
 					return HTCAPTION;
 				}
 
@@ -352,52 +308,6 @@ namespace drop
 
 		}
 		return DefWindowProcW(m_WindowHandle, msg, wParam, lParam);
-	}
-
-	LRESULT WindowsWindow::HandleClientMessage(UINT msg, WPARAM wParam, LPARAM lParam)
-	{
-		switch (msg)
-		{
-
-			case WM_PAINT:
-			{
-				PAINTSTRUCT ps;
-				HDC hdc = BeginPaint(m_ClientWindowHandle, &ps);
-
-				// Render custom titlebar and client area here
-				// Example: Fill with different color for titlebar area
-				RECT titlebarRect = ps.rcPaint;
-				HBRUSH titleBrush = CreateSolidBrush(RGB(10, 10, 10));
-				titlebarRect.bottom = CUSTOM_TITLEBAR_HEIGHT; // Titlebar height
-				FillRect(hdc, &titlebarRect, titleBrush);
-				DeleteObject(titleBrush);
-
-				RECT clientRect = ps.rcPaint;	
-				HBRUSH clientBrush = CreateSolidBrush(RGB(26, 26, 26));
-				clientRect.top = CUSTOM_TITLEBAR_HEIGHT;
-				FillRect(hdc, &clientRect, clientBrush);
-				DeleteObject(clientBrush);
-			
-
-				EndPaint(m_ClientWindowHandle, &ps);
-				return 0;
-			}
-
-			case WM_NCHITTEST:
-			{
-				POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
-				ScreenToClient(m_ClientWindowHandle, &pt);
-
-				if (pt.y < CUSTOM_TITLEBAR_HEIGHT)
-				{
-					return HTTRANSPARENT;
-				}
-				return HTCLIENT;
-			}
-
-		}
-		
-		return DefWindowProcW(m_ClientWindowHandle, msg, wParam, lParam);
 	}
 
 	void WindowsWindow::Update()

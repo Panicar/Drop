@@ -7,7 +7,6 @@ namespace drop
 	static int CalculateDPI(HMODULE shCoreDll);
 	static HMONITOR GetPrimaryMonitorHandle();
 	static LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-	static LRESULT CALLBACK ClientWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	WindowsPlatform::WindowsPlatform(void* hInstance)
 		: m_HInstance((HINSTANCE)hInstance), m_DPI(96)
@@ -43,23 +42,6 @@ namespace drop
 		}
 
 		DP_CORE_INFO("Window class registered!");
-
-		WNDCLASSEXW wcc = {};
-		wcc.cbSize = sizeof(WNDCLASSEXW);
-		wcc.style = CS_HREDRAW | CS_VREDRAW;
-		wcc.lpfnWndProc = ClientWndProc;
-		wcc.hInstance = m_HInstance;
-		wcc.hCursor = LoadCursor(nullptr, IDC_ARROW);
-		wcc.lpszClassName = WindowsWindow::ClientWindowClassName;
-		//wcc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-
-		if (!RegisterClassExW(&wcc)) 
-		{
-			DP_CORE_ERROR("Failed to register client window class");
-		}
-
-		DP_CORE_INFO("Client window class registered!");
-
 	}
 
 	void WindowsPlatform::TerminateImpl()
@@ -222,35 +204,4 @@ namespace drop
 
 		return DefWindowProcW(hWnd, msg, wParam, lParam);
 	}
-
-	static LRESULT CALLBACK ClientWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
-	{
-		if (msg == WM_CREATE) 
-		{
-			CREATESTRUCT* cs = reinterpret_cast<CREATESTRUCT*>(lParam);
-			auto* window = static_cast<WindowsWindow*>(cs->lpCreateParams);
-			
-			if (window)
-			{
-				DP_CORE_INFO("Client Window pointer is valid, setting user data.");
-				SetWindowLongPtrW(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(window));
-				
-				return DefWindowProcW(hWnd, msg, wParam, lParam);
-			}
-			else
-			{
-				DP_CORE_ERROR("Window pointer is null in WM_CREATE!");
-				return FALSE;
-			}
-		}
-
-		auto* window = reinterpret_cast<WindowsWindow*>(GetWindowLongPtrW(hWnd, GWLP_USERDATA));
-		if (window) 
-		{
-			return window->HandleClientMessage(msg, wParam, lParam);
-		}
-
-		return DefWindowProcW(hWnd, msg, wParam, lParam);
-	}
-
 }
