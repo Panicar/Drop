@@ -2,7 +2,6 @@
 
 #include "Core.hpp"
 #include "Platform/Base/Window.hpp"
-
 #include <string>
 
 namespace drop 

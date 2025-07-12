@@ -19,4 +19,6 @@
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX   
 #include <windows.h>
+#undef ZeroMemory
+#undef CopyMemory
 #endif

@@ -4,8 +4,6 @@
 
 namespace drop
 {
-
-
 	CoreApp* CoreApp::s_Instance = nullptr;
 
 	CoreApp::CoreApp(const CommandLineArgs& args)
@@ -20,7 +18,10 @@ namespace drop
 
 		DP_CORE_INFO("App has created!");
 
-		WindowProperties props;
+		WindowProperties props = {};
+		props.Title = "Drop Engine";
+		props.DefaultTitlebar = false;
+		//props.IsBorderless = true;
 		m_Window = IWindow::Create(props);
 
 	}
@@ -32,19 +33,11 @@ namespace drop
 
 	void CoreApp::Run()
 	{
-		char a = {};
-
 		while (m_IsRunning)
 		{
 			Update();
 		
 			m_Window->Update();
-			
 		}
-	}
-		
-	void CoreApp::Print()
-	{
-		DP_CORE_DEBUG("[APP]: CoreApp::Print()");
 	}
 }
