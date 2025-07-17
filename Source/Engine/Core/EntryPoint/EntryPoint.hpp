@@ -2,7 +2,7 @@
 
 #include "Platform/Base/Platform.hpp"
 #include "Log/Log.hpp"
-#include "App/App.hpp"
+#include "Application/Application.hpp"
 
 #if defined(DP_PLATFORM_WINDOWS)
 #include <shellapi.h>
@@ -17,7 +17,7 @@
 #define PASS_ARGS argc, argv
 #endif
 
-extern drop::CoreApp* drop::CreateApp(const drop::CommandLineArgs& args);
+extern drop::CoreApplication* drop::CreateApplication(const drop::CommandLineArgs& args);
 
 namespace drop
 {
@@ -31,7 +31,6 @@ namespace drop
         IPlatform::Create(GetModuleHandleA(0));
 #endif
         IPlatform::Initialize();
-
         CommandLineArgs commandLineArgs = {};
 
 #if defined(DP_MASTER_MODE)
@@ -52,11 +51,11 @@ namespace drop
         commandLineArgs.Argc = argc;
         commandLineArgs.Argv = argv;
 #endif
-        CoreApp* app = CreateApp(commandLineArgs);
+        CoreApplication* app = CreateApplication(commandLineArgs);
 
         if (!app)
         {
-            DP_CORE_CRITICAL("Failed to create App instance!");
+            DP_CORE_CRITICAL("Failed to create Application instance!");
             IPlatform::Terminate();
             IPlatform::Destroy();
             Log::Shutdown();
@@ -117,9 +116,9 @@ namespace drop
         return drop::Main(PASS_ARGS);   \
     }
 
-#define DP_IMPLEMENT_APP(AppClass)                                              \
-    drop::CoreApp* drop::CreateApp(const drop::CommandLineArgs& args)           \
-    {                                                                           \
-        return new AppClass(args);                                              \
-    }                                                                           \
-    DP_IMPLEMENT_MAIN;                                                          \
+#define DP_IMPLEMENT_APPLICATION(ApplicationClass)                                              \
+    drop::CoreApplication* drop::CreateApplication(const drop::CommandLineArgs& args)           \
+    {                                                                                           \
+        return new ApplicationClass(args);                                                      \
+    }                                                                                           \
+    DP_IMPLEMENT_MAIN;                                                                          \

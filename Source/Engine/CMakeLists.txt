@@ -1,19 +1,21 @@
 # Setting Core source files
 set(CORE_SOURCES
-	"Core/App/App.cpp"
+	"Core/Application/Application.cpp"
 	"Core/Log/Log.cpp"
 	"Core/Platform/Base/Platform.cpp"
 	"Core/Platform/Base/Window.cpp"
+	#"Core/Event/Event.cpp"
 )
 
 # Setting Core header files
 set(CORE_HEADERS 
 	"Core/Core.hpp"
-	"Core/App/App.hpp"
+	"Core/Application/Application.hpp"
 	"Core/EntryPoint/EntryPoint.hpp"
 	"Core/Log/Log.hpp"
 	"Core/Platform/Base/Platform.hpp"
 	"Core/Platform/Base/Window.hpp"
+	"Core/Event/Event.hpp"
 )
 
 if(WIN32)

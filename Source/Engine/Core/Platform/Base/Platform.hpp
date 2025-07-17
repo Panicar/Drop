@@ -21,8 +21,11 @@ namespace drop
 
 		static void Initialize();
 		static void Terminate() { s_Instance->TerminateImpl(); }
+		static void PumpMessages() { s_Instance->PumpMessagesImpl(); }
 		static IPlatform* Instance() noexcept { return s_Instance; }
 		static void Destroy() { delete s_Instance; s_Instance = nullptr; }
+		
+
 
 		template<typename T>
 		static T* As() noexcept
@@ -45,6 +48,7 @@ namespace drop
 
 		virtual void InitializeImpl() = 0;
 		virtual void TerminateImpl() = 0;
+		virtual void PumpMessagesImpl() = 0;
 
 		virtual void* AllocateImpl(size_t size) = 0;
 		//virtual void* AllocateAlignedImpl(size_t size, size_t alignment) = 0;

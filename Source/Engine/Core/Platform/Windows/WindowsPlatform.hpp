@@ -14,6 +14,7 @@ namespace drop
 		~WindowsPlatform() override;
 		void InitializeImpl() override;
 		void TerminateImpl() override;
+		void PumpMessagesImpl() override;
 
 		void SetHighDPIAwarenessEnabled(bool enabled);
 		WCHAR* CreateWideString(const char* str) const;

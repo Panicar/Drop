@@ -49,6 +49,16 @@ namespace drop
 		DP_CORE_INFO("Platform terminated!");
 	}
 
+	void WindowsPlatform::PumpMessagesImpl()
+	{
+		MSG msg;
+		while (PeekMessageW(&msg, nullptr, 0, 0, PM_REMOVE))
+		{
+			TranslateMessage(&msg);
+			DispatchMessageW(&msg);
+		}
+	}
+
 	void* WindowsPlatform::AllocateImpl(size_t size)
 	{
 		void* ptr = ::HeapAlloc(::GetProcessHeap(), HEAP_ZERO_MEMORY, size);

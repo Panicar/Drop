@@ -6,7 +6,7 @@
 
 
 Sandbox::Sandbox(const drop::CommandLineArgs& args)
-	: drop::CoreApp(args)
+	: drop::CoreApplication(args)
 {
 	std::cout << "Sandbox created" << '\n';
 
@@ -34,4 +34,4 @@ void Sandbox::SandboxTest()
 
 }
 
-DP_IMPLEMENT_APP(Sandbox);
+DP_IMPLEMENT_APPLICATION(Sandbox);
